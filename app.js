@@ -15,6 +15,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+//var connect        = require('connect')
+var methodOverride = require('method-override')
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
+
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

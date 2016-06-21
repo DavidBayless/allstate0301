@@ -14,6 +14,5 @@ block content
       for album in albums
         tr(class='albumsList')
           td= album.genre
-          td= album.artist
-          td: a(href='/albumz/' + album._id)= album.album
-            
+          td(id="artist")= album.artist
+          td: a(href='/albumz/' + album._id + "/edit" id="editLink")= album.album

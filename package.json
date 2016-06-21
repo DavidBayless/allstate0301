@@ -18,6 +18,9 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "connect": "^3.4.1",
+    "express-method-override": "0.0.3",
+    "method-override": "^2.3.6",
     "mocha": "^2.5.3",
     "protractor": "^3.3.0"
   }

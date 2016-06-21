@@ -1,4 +1,5 @@
 require('../helper');
+var db = require('../../config/database');
 
 var http = require('http'),
     server;
@@ -10,6 +11,7 @@ before(function() {
 });
 
 beforeEach(function() {
+
   return browser.ignoreSynchronization = true;
 });
 
@@ -34,21 +36,38 @@ describe('Albumz Index', function(){
     });
   });
   it('should display a table of albums', function(done) {
-    browser.get('/albumz');
-    element.all(by.css('.albumsList td')).getText().then(function(text) {
-      console.log(text);
-      expect(text[0]).to.equal('Jazz');
-      expect(text[1]).to.equal('Miles Davis');
-      expect(text[2]).to.equal('Kind of Blue');
-      done();
+    var album = {
+      artist: "Avenged Sevenfold",
+      album: "Bat Country",
+      genre: "Metal"
+    };
+
+    db.get('albums').insert(album, function(){
+      browser.get('/albumz');
+      element.all(by.css('.albumsList td')).getText().then(function(text) {
+        console.log("This is text",text);
+        expect(text[0]).to.equal('Metal');
+        expect(text[1]).to.equal('Avenged Sevenfold');
+        expect(text[2]).to.equal('Bat Country');
+        done();
+      });
     });
   });
+
   it('should have a link to take users to a specific album page', function(done) {
-    browser.get('/albumz');
-    element(by.css('.albumsList a')).click();
-    browser.getCurrentUrl().then(function(url) {
-      expect(url.split(browser.baseUrl)[1]).to.equal('/albumz/576865590893834868bfcf04');
-      done();
+    var album = {
+      artist: "Avenged Sevenfold",
+      album: "Bat Country",
+      genre: "Metal"
+    };
+
+    db.get('albums').insert(album, function(){
+      browser.get('/albumz');
+      element(by.id('editLink')).click();
+      element(by.id('legenwaitforitdary')).getText().then(function(text){
+        expect(text).to.equal('Edit album');
+        done();
+      });
     });
-  })
+  });
 });
